@@ -1,0 +1,121 @@
+\documentclass[orivec]{llncs}
+
+%% Language and font encodings
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[T1]{fontenc}
+
+%% Math
+\usepackage{amsmath,amssymb}
+\allowdisplaybreaks %[1][2][3][4] (amsmath) useful for preventing equations overflow
+
+%% Sets page size and margins to specific values. Only if strictly needed
+% \usepackage[a4paper,top=3cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+%% Fonts
+\usepackage{microtype} % Better typesetting
+
+%% Only for testing
+\usepackage{blindtext}
+
+%% Useful packages
+\usepackage{bm} % Bold math symbols (including e.g. Greek letters)
+\usepackage{graphicx}
+\usepackage{xurl} % Better than url (e.g. it allows for url breaking)
+\usepackage{stmaryrd}
+\usepackage{xcolor} % Colors like black!50
+\usepackage{caption}
+
+\usepackage{booktabs,multirow,tabularx} % Nice tables
+\newcolumntype{C}{>{\centering\arraybackslash}X} % Centered version of X (tabularx)
+
+\usepackage{enumitem} % Better lists
+% \setlist{leftmargin=3.5mm} % left margin for lists
+
+\usepackage{hyperref} % Hyperlinks
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue,
+  filecolor=blue,
+  citecolor=blue,      
+  urlcolor=cyan,
+}
+
+%% Margin notes
+\usepackage{todonotes}
+
+% If-else statements
+\usepackage{etoolbox} 
+%
+\newtoggle{anonymous}
+\newtoggle{comments}
+\newtoggle{short}
+%
+\toggletrue{anonymous}
+\toggletrue{comments}
+\togglefalse{short}
+
+\iftoggle{comments}{
+  \newcommand{\daniel}[2][]{\todo[color=yellow!50,#1]{\textsf{Daniel:} #2}}
+}{
+  \newcommand{\daniel}[2]{}
+}
+
+% Bibliography with biber+biblatex
+% Use either 'biber' or 'bibtex' for backend
+\iftoggle{short}{
+\usepackage[style=numeric,backend=bibtex,maxbibnames=99,sortcites]{biblatex}
+}{
+\usepackage[style=alphabetic,backend=bibtex,maxbibnames=99,sortcites]{biblatex}
+}
+
+% page numbers are removed by LLNCS
+\pagestyle{plain}
+
+%\addbibresource{cryptobib/crypto.bib}
+%\addbibresource{cryptobib/abbrev0.bib}
+\addbibresource{references.bib} % do not omit ".bib"
+
+\title{Fast Large-Scale Edabits for Honest Majority} 
+\date{}
+\iftoggle{anonymous}{
+  \author{} 
+  \institute{}
+}{
+  \author{First\inst{1}, Second\inst{2}} 
+  \institute{Industry\and University}
+}
+
+\input{macros}
+\input{tcb}
+
+\begin{document} 
+\maketitle 
+
+\begin{abstract}
+  My abstract
+\end{abstract}
+
+\input{sections/introduction}
+
+\iftoggle{anonymous}{
+}{
+\section*{Acknowledgments}
+}
+\printbibliography
+
+\newpage
+\noindent{\huge\textbf{Supplementary Material}}
+\appendix
+
+%% List of functionalities, protocols and procedures
+\setcounter{tocdepth}{1} % Needed for the list of functionalities, procedures and protocols (llncs sets this to 0)
+\begingroup
+\renewcommand\numberline[1]{}
+\tcblistof[\subsection*]{func}{Functionalities}
+\tcblistof[\subsection*]{prot}{Protocols}
+\tcblistof[\subsection*]{prot}{Procedures}
+\endgroup
+
+
+\end{document} 
