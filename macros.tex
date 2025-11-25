@@ -1,13 +1,32 @@
+\newcommand{\blue}[1]{{\color{blue} #1}}
+\newcommand{\purple}[1]{{\color{purple} #1}}
+\newcommand{\gray}[1]{{\scriptsize\color{gray} (#1)}}
+
 %% Abbreviations
 \newcommand{\NN}{\mathbb{N}}
 \newcommand{\ZZ}{\mathbb{Z}}
 \newcommand{\FF}{\mathbb{F}}
 \newcommand{\GG}{\mathbb{G}}
 
+\newcommand{\XX}{\mathtt{X}}
+
+\newcommand{\cA}{\mathcal{A}}
+\newcommand{\cB}{\mathcal{B}}
+\newcommand{\cC}{\mathcal{C}}
+\newcommand{\cF}{\mathcal{F}}
+\newcommand{\cH}{\mathcal{H}}
+\newcommand{\cI}{\mathcal{I}}
+\newcommand{\cS}{\mathcal{S}}
+\newcommand{\cZ}{\mathcal{Z}}
+
 %% Brackets
 \usepackage{stmaryrd}
 \newcommand{\shr}[1]{\left\llbracket #1 \right\rrbracket}
+\newcommand{\tshr}[2]{\left\llbracket #2 \right\rrbracket_{2^{#1}}}
+\newcommand{\bshr}[1]{\ashr{2}{#1}}
+\newcommand{\ashr}[2]{\left\llbracket #2 \right\rrbracket_{#1}}
 \newcommand{\ang}[1]{\left\langle #1 \right\rangle}
+\newcommand{\svalue}[1]{\left\llparenthesis #1 \right\rrparenthesis}
 
 % Functionalities and protocols
 \newcommand{\Func}[1]{\mathcal{F}_{\mathsf{#1}}}
@@ -15,8 +34,82 @@
 \newcommand{\Proc}[1]{\pi_{\mathsf{#1}}}
 
 % Refs
-\newcommand{\FTest}{\hyperref[func:test]{\ensuremath{\Func{Test}}}}
-\newcommand{\PTest}{\hyperref[prot:test]{\ensuremath{\Prot{Test}}}}
+\newcommand{\PAgg}{\hyperref[proc:aggregation]{\ensuremath{\Proc{AggEdabit}}}}
+\newcommand{\PBTA}{\hyperref[proc:bit-to-arithmetic]{\ensuremath{\Proc{BitToArith}}}}
+\newcommand{\PBits}{\hyperref[proc:bits]{\ensuremath{\Proc{BitDec}}}}
+
+\newcommand{\PRingBits}{\hyperref[proc:ring-bits]{\ensuremath{\Proc{RingBitDec}}}}
+\newcommand{\PFieldBits}{\hyperref[proc:field-bits]{\ensuremath{\Proc{FieldBitDec}}}}
+
+\newcommand{\PRBits}{\hyperref[proc:rand-bits]{\ensuremath{\Proc{RandBits}}}}
+\newcommand{\PBitAdder}{\hyperref[proc:bit-adder]{\ensuremath{\Proc{BitAdder}}}}
+\newcommand{\PBitLT}{\hyperref[proc:bit-lt]{\ensuremath{\Proc{BitLT}}}}
+\newcommand{\PEdabits}{\hyperref[prot:edabits]{\ensuremath{\Prot{Edabits}}}}
+
+\newcommand{\PRingDabits}{\hyperref[prot:ring-dabits]{\ensuremath{\Prot{RingDabits}}}}
+\newcommand{\PRingPrivateDabits}{\hyperref[prot:ring-private-dabits]{\ensuremath{\Prot{RingPrivateDabits}}}}
+
+\newcommand{\PFieldDabits}{\hyperref[prot:field-dabits]{\ensuremath{\Prot{FieldDabits}}}}
+\newcommand{\PConvertAtB}{\hyperref[proc:converta2b]{\ensuremath{\Proc{ConvertA2B}}}}
+\newcommand{\POneBit}{\hyperref[proc:one-bit]{\ensuremath{\Proc{OneBit}}}}
+\newcommand{\PFieldFullPEdabits}{\hyperref[prot:field-full-private-edabits]{\ensuremath{\Prot{FieldFullPrivateEdabits}}}}
+\newcommand{\PFieldFullEdabits}{\hyperref[prot:field-full-edabits]{\ensuremath{\Prot{FieldFullEdabits}}}}
+\newcommand{\PFieldPrivateDabits}{\hyperref[prot:field-private-dabits]{\ensuremath{\Prot{FieldPrivateDabits}}}}
+\newcommand{\PRingPEdabits}{\hyperref[proc:ring-private-edabits]{\ensuremath{\Proc{RingPrivateEdabits}}}}
+\newcommand{\PPrivEd}{\hyperref[prot:2m-private-edabits]{\ensuremath{\Prot{2^m PrivateEdabits}}}}
+
+\newcommand{\FFieldFullPrivEd}{\hyperref[func:field-full-private-edabits]{\ensuremath{\Func{FieldFullPrivEd}}}}
+\newcommand{\FPrivEd}{\hyperref[func:private-edabits]{\ensuremath{\Func{PrivEd}}}}
+\newcommand{\FPrivDb}{\hyperref[func:private-dabits]{\ensuremath{\Func{PrivDb}}}}
+\newcommand{\PPrivEdRing}{\hyperref[prot:private-edabits]{\ensuremath{\Prot{PrivEdRing}}}}
+\newcommand{\FABB}{\hyperref[func:abb]{\ensuremath{\Func{ABB}}}}
+\newcommand{\FEdabits}{\hyperref[func:edabits]{\ensuremath{\Func{Edabits}}}}
+\newcommand{\FDabits}{\hyperref[func:dabits]{\ensuremath{\Func{Dabits}}}}
+\newcommand{\FFullEdabits}{\hyperref[func:full-edabits]{\ensuremath{\Func{FieldFullEdabits}}}}
+
+
+% Formats
+\newcommand{\vc}[1]{\mathbf{#1}} % vector
 
 % Other
 \mathchardef\mhyphen="2D % math hyphen
+
+% MPC
+\newcommand{\Party}{P}
+\newcommand{\abort}{\mathsf{abort}}
+
+%ABB
+\newcommand{\ABBinput}{\mathsf{Input}}
+\newcommand{\ABBadd}{\mathsf{Add}}
+\newcommand{\ABBmult}{\mathsf{Mult}}
+\newcommand{\ABBbtoa}{\mathsf{ConvertB2A}}
+\newcommand{\ABBatob}{\mathsf{ConvertA2B}}
+\newcommand{\ABBlocalmod}{\mathsf{LocalMod}}
+\newcommand{\ABBoutput}{\mathsf{Output}}
+\newcommand{\ABBopen}{\mathsf{Open}}
+\newcommand{\ABBmod}{\mathcal{M}}
+\newcommand{\ABBid}{\mathsf{id}}
+\newcommand{\ABBdeliver}{\mathsf{deliver}}
+\newcommand{\ABBbits}{\mathsf{Bits}}
+\newcommand{\ABBrandbit}{\mathsf{RandBit}}
+\newcommand{\ABBcoin}{\mathsf{Coin}}
+
+\newcommand{\ABBbitlt}{\mathsf{BitLT}}
+
+%edabits
+\newcommand{\privedabit}{\mathsf{priv\mhyphen edabit}}
+\newcommand{\edabit}{\mathsf{edabit}}
+\newcommand{\fulledabit}{\mathsf{full\mhyphen edabit}}
+
+%dabits
+\newcommand{\dabit}{\mathsf{dabit}}
+\newcommand{\privdabit}{\mathsf{priv\mhyphen dabit}}
+
+%math
+\newcommand{\mat}[1]{{\bm #1}}
+\newcommand{\GR}{\mathsf{GR}}
+\newcommand{\GF}{\mathsf{GF}}
+\newcommand{\pking}{\mathsf{P_{king}}}
+
+%costs
+\newcommand{\CBTA}{\mathcal{C}_{\mathsf{B2A}}}

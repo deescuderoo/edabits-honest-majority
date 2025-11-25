@@ -1,14 +1,60 @@
 \section{Introduction}
 \label{sec:introduction}
 
-In~\cite{test}
+Edabits are an important tool in Secure Multiparty Computation that enable several applications efficienctly.
+These objets where introduced in~\cite{C:EGKRS20}, where a protocol for constructing them was also presented.
+Unfortunately, their protocol requires \emph{quadratic} communication in the number of parties.
+The work of~\cite{edabits-ec} reduced this asymptotic communication to quasi-linear, especifically $O(n\log n)$, significantly improving on the efficiency from~\cite{C:EGKRS20}.
 
-See Functionality~\ref{func:test} (\FTest) and Protocol~\ref{prot:test} (\PTest)
+In this work we build on top of the techniques from~\cite{edabits-ec}, adding several optimizations for the specific case of honest majority, and obtain a much more \emph{concretely efficient} protocol for generating edabits in this setting.
 
-\begin{functionality}[label={func:test}]{$\Func{Test}$}
-  \blindtext
-\end{functionality}
+\subsection{Improvements on Private Edabits}
 
-\begin{protocol}[label={prot:test}]{$\Prot{Test}$}
-  \blindtext
+A sharing $(\ashr{M}{r},\bshr{r_0},\ldots,\bshr{r_{m-1}})$ with its value $r$ known to a single party is called a \emph{private edabit}.
+This is used as a building block in~\cite{edabits-ec} and~\cite{C:EGKRS20} to obtain actual \emph{global edabits}, where the secret is random and unknown to any party.
+
+Let $\ell = ...$.
+
+Our goal is to instantiate \FPrivEd~, parameterized with an arithmetic modulus $M = 2^k$, and an edabit length $L = 2^m$, for $m\leq k$.
+In the original edabits paper~\cite{C:EGKRS20}, this is achieved by having the party $P_i$ distribute the shares directly, followed by a check that ensures the secrets correspond to an actual edabit, that is, the binary part is the bit-decomposition of the arithmetic part.
+To ensure this the authors rely on \emph{bucketing} and \emph{cut-and-choose}, where $P_i$ shares many such edabits, which are permuted, arranged and checked in certain way that $P_i$ cannot cheat without being detected.
+In a bit more detail, to produce $N$ edabits, the parties proceed as follows:\footnote{\cite{C:EGKRS20} contains several parameters for the cut-and-choose: $C, C'$ and $B$. We set all of them to $3$, as they do. This requires at least $\approx 1M$ edabits to be produced in parallel, and for producing less edabits these parameters need to be bigger.}
+\begin{enumerate}
+\item
+  $P_i$ distributes $3N+3$ edabits
+\item
+  $P_i$ distributes $m\cdot(2N+3)$ binary triples to the parties.
+\item
+  The parties shuffle the $3N+3$ and open the first $3$ edabits, checking that they are indeed valid edabits.
+  They also shuffle the $m\cdot(2N+3)$ triples and open the first $3m$ triples, checking they are valid triples.
+\item
+  The remaining $3N$ edabits are placed in $N$ buckets of size $3$ each.
+  For each bucket, the first edabit is added to the 2nd and 3rd edabit, and each of these two sums is reconstructed.
+  Note that for this addition the arithmetic part is local, but the binary part requires a binary adder, for which the triples provided by $P_i$ are used.
+\item
+  If all of this passes, the first edabit in each bucket is produced as output.
+\end{enumerate}
+
+We note many places where the protocol above can be improved.
+The parties are jointly computing several binary adders in order to add edabits, and the fact that $P_i$ knows all the underlying is already exploited in~\cite{C:EGKRS20}, where they note the parties do not need to jointly generate triples to compute the adders, but instead they can let $P_i$ provide the triples.
+We go one step further a observe that, as is in general the case in cryptography, \emph{verifying is less expensive than computing}.
+Instead of having the parties run the adder circuit in MPC (with triples provided by $P_i$), we let $P_i$ provide the output of the adders, and prove in \emph{zero-knowledge} that the output of these circuits is indeed what is claimed.
+Concretely, we make use of distributed zero-knowledge~\cite{C:BBCGI19} to achieve this, which is much more efficient since (1) $P_i$ only needs to distribute the ``intermediate witness'', which is smaller than the amount of triples needed in~\cite{C:EGKRS20}, and (2) the round complexity is severely reduced since parties do not need to run an adder anymore, but instead act as verifiers in the distributed ZK.
+
+We can stretch this idea and avoid the cut-and-choose altogether: we let $P_i$ distribute $N$ edabits, and prove in zero-knowledge that the $N$ edabits are indeed correct.
+However, instantiating this idea concretely is not trivial, stemming from the fact that an edabit contains sharings defined over two different domains...
+
+\daniel[inline]{Note that the baseline requires $m\cdot (2N+3)$ binary triples. If we find some ``ZK approach'' where the witness is less than that, we should be good, especially if we can avoid sharings $3N+3$ edabits initially.}
+
+\begin{protocol}[label={prot:private-edabits}]{$\PPrivEdRing$}
+  
 \end{protocol}
+
+\begin{theorem}
+  Protocol $\PPrivEdRing$ UC-securely instantiates $\FPrivEd[2^k,2^m]$ in the $\FABB$-hybrid model.
+\end{theorem}
+
+\daniel[inline]{\textbf{Ideas to explore}\\
+  - Random linear combination\\
+  - Adapting CutNChoose parameters taking into account there are no ``wrong triples'' anymore
+}
